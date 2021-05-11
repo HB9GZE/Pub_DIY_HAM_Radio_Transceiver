@@ -1,0 +1,102 @@
+#define PIXEL_W 300
+#define PIXEL_H 100
+
+class Screen2View: public Screen2ViewBase
+{
+public:
+	Screen2View();
+	virtual ~Screen2View()
+	{
+	}
+	virtual void setupScreen();
+	virtual void tearDownScreen();
+	virtual void handleTickEvent();
+	virtual void setValue(int value);
+	virtual void increaseVCO();
+	virtual void decreaseVCO();
+	virtual void isTransmitting();
+	virtual void mustUpdateVFO(uint32_t frequency, uint8_t band);
+	virtual void mustUpdateTransmit(uint8_t boolTransmit);
+
+protected:
+	int counter;
+	float result;
+	uint16_t tickcounter = 0, pixelCounter = 0;
+	unsigned char pixel_data[PIXEL_H * PIXEL_W * 3];
+	touchgfx::PixelDataWidget pixelDataWidget;
+};
+	
+	
+	******************************
+	
+	pixelDataWidget.setPosition(70, 165, PIXEL_W, PIXEL_H);
+	pixelDataWidget.setPixelData(pixel_data);
+	pixelDataWidget.setBitmapFormat(Bitmap::RGB888);
+	pixelDataWidget.setAlpha(255);
+	pixelDataWidget.setTouchable(true);
+
+	pixelCounter = 0;
+	for (int i = 0; i < (PIXEL_H * PIXEL_W); i++)
+	{
+		pixelCounter++;
+		if (pixelCounter <= 3000)
+		{
+			pixel_data[(i * 3) + 0] = 200;
+			pixel_data[(i * 3) + 1] = 100;
+			pixel_data[(i * 3) + 2] = 100;
+
+		}
+		if (pixelCounter > 3000 && pixelCounter <= 6000)
+		{
+			pixel_data[(i * 3) + 0] = 100;
+			pixel_data[(i * 3) + 1] = 250;
+			pixel_data[(i * 3) + 2] = 200;
+
+			if (pixelCounter == 6000)
+			{
+				pixelCounter = 0;
+			}
+		}
+
+	}
+	add (pixelDataWidget);
+	pixelDataWidget.invalidate();
+	
+	**********************************
+	
+		if (tickcounter == 10)
+	{
+		for (int i = 0; i < (PIXEL_H * PIXEL_W); i++)
+		{
+			pixelCounter++;
+			if (pixelCounter <= 3000)
+			{
+				pixel_data[(i * 3) + 0] = (3800 - (int) vco_80m_s) / 2 + 105;
+				pixel_data[(i * 3) + 1] = 100;
+				pixel_data[(i * 3) + 2] = (3800 - (int) vco_80m_s) / 2 + 105;
+
+			}
+			if (pixelCounter > 3000 && pixelCounter <= 6000)
+			{
+				pixel_data[(i * 3) + 0] = (3800 - (int) vco_80m_s) / 2 + 105;
+				pixel_data[(i * 3) + 1] = 250;
+				pixel_data[(i * 3) + 2] = (3800 - (int) vco_80m_s) / 2 + 105;
+
+				if (pixelCounter == 6000)
+				{
+					pixelCounter = 0;
+				}
+			}
+			pixelDataWidget.invalidate();
+
+		}
+		tickcounter = 0;
+	}
+	
+	****************************
+	
+		for (uint16_t i = 0; i < 300; i++)
+	{
+		result = 50 + 50 * sin((((2 * M_PI) + counter / 2) / 300) * i);
+		dynamicGraph1.addDataPoint(result);
+	}

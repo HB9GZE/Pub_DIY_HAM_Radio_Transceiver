@@ -1,0 +1,191 @@
+#include <gui/screen2_screen/Screen2View.hpp>
+#include <math.h>
+
+extern uint8_t bandSelected, fromView1, fromView2;
+extern float vco_80m, vco_40m, vco_20m;
+extern float vco_80m_s, vco_40m_s, vco_20m_s;
+extern float vco_80m_dec, vco_40m_dec, vco_20m_dec;
+
+Screen2View::Screen2View()
+{
+
+}
+
+void Screen2View::setupScreen()
+{
+	Screen2ViewBase::setupScreen();
+
+	if (bandSelected == 80)
+	{
+		vco_80m = vco_80m_s + vco_80m_dec;
+		slider1.setValueRange(3500, 3800, vco_80m_s);
+		slider1.invalidate();
+	}
+	if (bandSelected == 40)
+	{
+		vco_40m = vco_40m_s + vco_40m_dec;
+		slider1.setValueRange(7000, 7200, vco_40m_s);
+		slider1.invalidate();
+	}
+	if (bandSelected == 20)
+	{
+		vco_20m = vco_20m_s + vco_20m_dec;
+		slider1.setValueRange(14000, 14350, vco_20m_s);
+		slider1.invalidate();
+	}
+
+	pixelDataWidget.setPosition(70, 165, PIXEL_W, PIXEL_H);
+	pixelDataWidget.setPixelData(pixel_data);
+	pixelDataWidget.setBitmapFormat(Bitmap::ARGB8888);
+	pixelDataWidget.setAlpha(255);
+
+	for (int j = 0; j < PIXEL_H; j++)
+		for (int i = 0; i < PIXEL_W; i++)
+		{
+			pixel_data[j * PIXEL_W * 4 + i * 4 + 0] = 255;
+			pixel_data[j * PIXEL_W * 4 + i * 4 + 1] = 255;
+			pixel_data[j * PIXEL_W * 4 + i * 4 + 2] = 255;
+			pixel_data[j * PIXEL_W * 4 + i * 4 + 3] = 0;
+		}
+
+	add (pixelDataWidget);
+
+}
+
+void Screen2View::tearDownScreen()
+{
+	fromView2 = 1;
+	Screen2ViewBase::tearDownScreen();
+}
+
+void Screen2View::handleTickEvent()
+{
+	//counter++;
+	//Unicode::snprintf(textArea2Buffer, TEXTAREA2_SIZE, "%d", counter);
+	//textArea2.invalidate();
+	tickcounter++;
+
+	if (tickcounter > 10)
+	{
+
+		for (uint16_t i = 0; i < 300; i++)
+		{
+			result = 50 + 50 * sin(((2 * M_PI) / 300) * 4 * i);
+			dynamicGraph1.addDataPoint(result);
+		}
+
+		tickcounter = 0;
+	}
+
+}
+
+void Screen2View::setValue(int value)
+{
+
+	switch (bandSelected)
+	{
+	case 80:
+		vco_80m_s = (float) value;
+		if (fromView1)
+		{
+			fromView1 = 0;
+		}
+		else
+		{
+			vco_80m_dec = 0;
+		}
+		vco_80m = vco_80m_s + vco_80m_dec;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_80m);
+		textArea2.invalidate();
+		break;
+	case 40:
+		vco_40m_s = (float) value;
+		if (fromView1)
+		{
+			fromView1 = 0;
+		}
+		else
+		{
+			vco_40m_dec = 0;
+		}
+		vco_40m = vco_40m_s + vco_40m_dec;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_40m);
+		textArea2.invalidate();
+		break;
+	case 20:
+		vco_20m_s = (float) value;
+		if (fromView1)
+		{
+			fromView1 = 0;
+		}
+		else
+		{
+			vco_20m_dec = 0;
+		}
+		vco_20m = vco_20m_s + vco_20m_dec;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_20m);
+		textArea2.invalidate();
+		break;
+	}
+}
+
+void Screen2View::decreaseVCO()
+{
+	switch (bandSelected)
+	{
+	case 80:
+
+		vco_80m_dec = vco_80m_dec - 0.1;
+		vco_80m = vco_80m_s + vco_80m_dec;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_80m);
+		textArea2.invalidate();
+		break;
+	case 40:
+		vco_40m_dec = vco_40m_dec - 0.1;
+		vco_40m = vco_40m_s + vco_40m_dec;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_40m);
+		textArea2.invalidate();
+		break;
+	case 20:
+		vco_20m_dec = vco_20m_dec - 0.1;
+		vco_20m = vco_20m_s + vco_20m_dec;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_20m);
+		textArea2.invalidate();
+		break;
+	}
+
+}
+
+void Screen2View::increaseVCO()
+{
+	switch (bandSelected)
+	{
+	case 80:
+		vco_80m_dec = vco_80m_dec + 0.1;
+		vco_80m = vco_80m_s + vco_80m_dec;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_80m);
+		textArea2.invalidate();
+		break;
+	case 40:
+		vco_40m_dec = vco_40m_dec + 0.1;
+		vco_40m = vco_40m_s + vco_40m_dec;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_40m);
+		textArea2.invalidate();
+		break;
+	case 20:
+		vco_20m_dec = vco_20m_dec + 0.1;
+		vco_20m = vco_20m_s + vco_20m_dec;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_20m);
+		textArea2.invalidate();
+		break;
+	}
+}

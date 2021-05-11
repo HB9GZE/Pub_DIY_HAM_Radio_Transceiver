@@ -1,0 +1,59 @@
+#include <gui/screen1_screen/Screen1View.hpp>
+#include <generated/gui_generated/screen1_screen/Screen1ViewBase.hpp>
+extern "C" uint8_t input, output, bandSelected;
+
+Screen1View::Screen1View() {
+//	TypedText_t hallo = "Hallo";
+//	if (input == 1)
+//		textArea1.setTypedText(hallo);
+//	else
+//		textArea1.setTypedText("Velo");
+}
+
+void Screen1View::setupScreen() {
+	Screen1ViewBase::setupScreen();
+}
+
+void Screen1View::tearDownScreen() {
+	Screen1ViewBase::tearDownScreen();
+}
+
+void Screen1View::txIsClicked() {
+
+	if (output == 0) {
+		output = 1;
+	} else {
+		output = 0;
+	}
+}
+
+void Screen1View::selected80m() {
+	bandSelected = 80;
+	toggleButton3.setBitmaps(touchgfx::Bitmap(BITMAP__80M_NOT_SELECTED_ID),
+			touchgfx::Bitmap(BITMAP__80M_SELECTED_ID));
+	toggleButton3.setBitmaps(touchgfx::Bitmap(BITMAP__40M_NOT_SELECTED_ID),
+			touchgfx::Bitmap(BITMAP__40M_NOT_SELECTED_ID));
+	toggleButton3.setBitmaps(touchgfx::Bitmap(BITMAP__20M_NOT_SELECTED_ID),
+			touchgfx::Bitmap(BITMAP__20M_NOT_SELECTED_ID));
+}
+
+void Screen1View::selected40m() {
+	bandSelected = 40;
+	toggleButton3.setBitmaps(touchgfx::Bitmap(BITMAP__80M_NOT_SELECTED_ID),
+			touchgfx::Bitmap(BITMAP__80M_NOT_SELECTED_ID));
+	toggleButton3.setBitmaps(touchgfx::Bitmap(BITMAP__40M_NOT_SELECTED_ID),
+			touchgfx::Bitmap(BITMAP__40M_SELECTED_ID));
+	toggleButton3.setBitmaps(touchgfx::Bitmap(BITMAP__20M_NOT_SELECTED_ID),
+			touchgfx::Bitmap(BITMAP__20M_NOT_SELECTED_ID));
+}
+
+void Screen1View::selected20m() {
+	bandSelected = 20;
+	toggleButton3.setBitmaps(touchgfx::Bitmap(BITMAP__80M_NOT_SELECTED_ID),
+			touchgfx::Bitmap(BITMAP__80M_NOT_SELECTED_ID));
+	toggleButton3.setBitmaps(touchgfx::Bitmap(BITMAP__40M_NOT_SELECTED_ID),
+			touchgfx::Bitmap(BITMAP__40M_NOT_SELECTED_ID));
+	toggleButton3.setBitmaps(touchgfx::Bitmap(BITMAP__20M_NOT_SELECTED_ID),
+			touchgfx::Bitmap(BITMAP__20M_SELECTED_ID));
+}
+

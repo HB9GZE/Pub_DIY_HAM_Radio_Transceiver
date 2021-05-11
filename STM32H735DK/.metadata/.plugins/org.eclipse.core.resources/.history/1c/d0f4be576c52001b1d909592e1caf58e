@@ -1,0 +1,22 @@
+#ifndef SCREEN1VIEW_HPP
+#define SCREEN1VIEW_HPP
+
+#include <gui_generated/screen1_screen/Screen1ViewBase.hpp>
+#include <gui/screen1_screen/Screen1Presenter.hpp>
+
+extern "C" uint8_t input, output, bandSelected;
+extern "C" float vco_20m;
+
+class Screen1View: public Screen1ViewBase {
+public:
+	Screen1View();
+	virtual ~Screen1View() {
+	}
+	virtual void setupScreen();
+	virtual void tearDownScreen();
+	virtual void txIsClicked();
+
+protected:
+};
+
+#endif // SCREEN1VIEW_HPP

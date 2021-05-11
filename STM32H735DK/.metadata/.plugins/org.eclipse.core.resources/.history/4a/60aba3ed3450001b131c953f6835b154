@@ -1,0 +1,20 @@
+#include <gui/screen1_screen/Screen1View.hpp>
+extern "C" int input
+
+Screen1View::Screen1View()
+{
+	if (input == 1)
+		textArea1.setTypedText("Hallo");
+	else
+		textArea1.setTypedText("Velo");
+}
+
+void Screen1View::setupScreen()
+{
+	Screen1ViewBase::setupScreen();
+}
+
+void Screen1View::tearDownScreen()
+{
+	Screen1ViewBase::tearDownScreen();
+}

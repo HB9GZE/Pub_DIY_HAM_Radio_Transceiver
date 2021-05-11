@@ -1,0 +1,121 @@
+#include <gui/screen1_screen/Screen1View.hpp>
+
+extern "C" uint8_t input, output, bandSelected;
+extern "C" float bfo_80m, bfo_40m, bfo_20m;
+
+Screen1View::Screen1View() {
+//	TypedText_t hallo = "Hallo";
+//	if (input == 1)
+//		textArea1.setTypedText(hallo);
+//	else
+//		textArea1.setTypedText("Velo");
+}
+
+void Screen1View::setupScreen() {
+	Screen1ViewBase::setupScreen();
+}
+
+void Screen1View::tearDownScreen() {
+	Screen1ViewBase::tearDownScreen();
+}
+
+void Screen1View::txIsClicked() {
+
+	if (output == 0) {
+		output = 1;
+	} else {
+		output = 0;
+	}
+}
+
+void Screen1View::selected80m() {
+	bandSelected = 80;
+}
+
+void Screen1View::selected40m() {
+	bandSelected = 40;
+}
+
+void Screen1View::selected20m() {
+	bandSelected = 20;
+}
+
+void Screen1View::setValue(int value) {
+
+	switch (bandSelected) {
+	case 80: {
+		bfo_80m = (float) value;
+		Unicode::snprintfFloat(textArea1Buffer, TEXTAREA1_SIZE, "%.1f",
+				bfo_80m);
+		//textArea1.resizeToCurrentText();
+		textArea1.invalidate();
+	}
+	case 40: {
+		bfo_40m = (float) value;
+		Unicode::snprintfFloat(textArea1Buffer, TEXTAREA1_SIZE, "%.1f",
+				bfo_40m);
+		//textArea1.resizeToCurrentText();
+		textArea1.invalidate();
+	}
+	case 20: {
+		bfo_20m = (float) value;
+		Unicode::snprintfFloat(textArea1Buffer, TEXTAREA1_SIZE, "%.1f",
+				bfo_20m);
+		//textArea1.resizeToCurrentText();
+		textArea1.invalidate();
+	}
+	}
+}
+
+void Screen1View::decreaseBFO() {
+	switch (bandSelected) {
+	case 80: {
+		bfo_80m = bfo_80m - 0.1;
+		Unicode::snprintfFloat(textArea1Buffer, TEXTAREA1_SIZE, "%.1f",
+				bfo_80m);
+		//textArea1.resizeToCurrentText();
+		textArea1.invalidate();
+	}
+	case 40: {
+		bfo_40m = bfo_40m - 0.1;
+		Unicode::snprintfFloat(textArea1Buffer, TEXTAREA1_SIZE, "%.1f",
+				bfo_40m);
+		//textArea1.resizeToCurrentText();
+		textArea1.invalidate();
+	}
+	case 20: {
+		bfo_20m = bfo_20m - 0.1;
+		Unicode::snprintfFloat(textArea1Buffer, TEXTAREA1_SIZE, "%.1f",
+				bfo_20m);
+		//textArea1.resizeToCurrentText();
+		textArea1.invalidate();
+	}
+	}
+}
+
+void Screen1View::increaseBFO() {
+	switch (bandSelected) {
+	case 80: {
+		bfo_80m = bfo_80m + 0.1;
+		Unicode::snprintfFloat(textArea1Buffer, TEXTAREA1_SIZE, "%.1f",
+				bfo_80m);
+		//textArea1.resizeToCurrentText();
+		textArea1.invalidate();
+	}
+	case 40: {
+		bfo_40m = bfo_40m + 0.1;
+		Unicode::snprintfFloat(textArea1Buffer, TEXTAREA1_SIZE, "%.1f",
+				bfo_40m);
+		//textArea1.resizeToCurrentText();
+		textArea1.invalidate();
+	}
+	case 20: {
+		bfo_20m = bfo_20m + 0.1;
+		Unicode::snprintfFloat(textArea1Buffer, TEXTAREA1_SIZE, "%.1f",
+				bfo_20m);
+		//textArea1.resizeToCurrentText();
+		textArea1.invalidate();
+	}
+	}
+}
+

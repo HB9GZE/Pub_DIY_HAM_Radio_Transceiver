@@ -1,0 +1,35 @@
+#include <gui/screen2_screen/Screen2View.hpp>
+
+Screen2View::Screen2View() :
+		counter(0) {
+
+}
+
+void Screen2View::setupScreen() {
+	Screen2ViewBase::setupScreen();
+}
+
+void Screen2View::tearDownScreen() {
+	Screen2ViewBase::tearDownScreen();
+}
+
+void Screen2View::handleTickEvent() {
+	//counter++;
+	//Unicode::snprintf(textArea2Buffer, TEXTAREA2_SIZE, "%d", counter);
+	//textArea2.invalidate();
+}
+
+void Screen2View::setValue(int value) {
+	Unicode::snprintf(textArea2Buffer, TEXTAREA2_SIZE, "%d", value);
+	textArea2.invalidate();
+}
+
+void Screen2ViewBase::sliderValueChangedCallbackHandler(
+		const touchgfx::Slider &src, int value) {
+	if (&src == &slider1) {
+		//Interaction2
+		//When slider1 value changed call virtual function
+		//Call setValue
+		setValue(value);
+	}
+}

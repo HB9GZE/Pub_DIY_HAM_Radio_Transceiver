@@ -1,0 +1,126 @@
+#include <gui/screen2_screen/Screen2View.hpp>
+
+extern "C" uint8_t bandSelected;
+extern "C" float vco_80m, vco_40m, vco_20m;
+
+Screen2View::Screen2View()
+{
+
+}
+
+void Screen2View::setupScreen()
+{
+	//extern uint8_t bandSelected;
+	//extern float vco_80m, vco_40m, vco_20m;
+
+	if (bandSelected == 80)
+	{
+		slider1.setValueRange(3500, 3800);
+		slider1.setValue(vco_80m);
+		slider1.invalidate();
+	}
+	if (bandSelected == 40)
+	{
+		slider1.setValueRange(7000, 7100);
+		slider1.setValue(vco_40m);
+		slider1.invalidate();
+	}
+	if (bandSelected == 20)
+	{
+		slider1.setValueRange(14000, 14350);
+		slider1.setValue(vco_20m);
+		slider1.invalidate();
+	}
+
+	Screen2ViewBase::setupScreen();
+
+}
+
+void Screen2View::tearDownScreen()
+{
+	Screen2ViewBase::tearDownScreen();
+}
+
+void Screen2View::handleTickEvent()
+{
+	//counter++;
+	//Unicode::snprintf(textArea2Buffer, TEXTAREA2_SIZE, "%d", counter);
+	//textArea2.invalidate();
+}
+
+void Screen2View::setValue(int value)
+{
+
+	switch (bandSelected)
+	{
+	case 80:
+		vco_80m = (float) value;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_80m);
+		textArea2.invalidate();
+		break;
+	case 40:
+		vco_40m = (float) value;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_40m);
+		textArea2.invalidate();
+		break;
+	case 20:
+		vco_20m = (float) value;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_20m);
+		textArea2.invalidate();
+		break;
+	}
+}
+
+void Screen2View::decreaseVCO()
+{
+	switch (bandSelected)
+	{
+	case 80:
+		vco_80m = vco_80m - 0.1;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_80m);
+		textArea2.invalidate();
+		break;
+	case 40:
+		vco_40m = vco_40m - 0.1;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_40m);
+		textArea2.invalidate();
+		break;
+	case 20:
+		vco_20m = vco_20m - 0.1;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_20m);
+		textArea2.invalidate();
+		break;
+	}
+
+}
+
+void Screen2View::increaseVCO()
+{
+	switch (bandSelected)
+	{
+	case 80:
+		vco_80m = vco_80m + 0.1;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_80m);
+		textArea2.invalidate();
+		break;
+	case 40:
+		vco_40m = vco_40m + 0.1;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_40m);
+		textArea2.invalidate();
+		break;
+	case 20:
+		vco_20m = vco_20m + 0.1;
+		Unicode::snprintfFloat(textArea2Buffer, TEXTAREA2_SIZE, "%.1f",
+				vco_20m);
+		textArea2.invalidate();
+		break;
+	}
+}
